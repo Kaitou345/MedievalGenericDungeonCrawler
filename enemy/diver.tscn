@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://crs1ltdrtce7e"]
+
+[ext_resource type="PackedScene" uid="uid://ja5d1585nwd4" path="res://enemy/enemy.tscn" id="1_2bjnf"]
+[ext_resource type="Script" uid="uid://c34atg8ge08xe" path="res://enemy/normal_enemies/Diver.gd" id="2_wwl3a"]
+[ext_resource type="Texture2D" uid="uid://cxblamni3cocp" path="res://assets/platformer/PNG/Retina/character_roundGreen.png" id="3_wwl3a"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q70rd"]
+radius = 38.0
+height = 108.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dn3a7"]
+radius = 34.0
+height = 108.0
+
+[node name="Diver" unique_id=446625782 instance=ExtResource("1_2bjnf")]
+
+[node name="CharacterBody2D" parent="." index="0" unique_id=1258280218]
+script = ExtResource("2_wwl3a")
+hover_height = null
+dive_speed = null
+slam_radius = null
+slam_damage = null
+reposition_speed = null
+attack_range_x = null
+attack_height_tolerance = null
+attack_cooldown = null
+max_health = null
+contact_damage = null
+points_value = null
+move_speed = null
+knockback_strength = null
+gravity_scale = null
+
+[node name="CollisionShape2D" parent="CharacterBody2D/Hitbox" parent_id_path=PackedInt32Array(240776709) index="0" unique_id=832802590]
+shape = SubResource("CapsuleShape2D_q70rd")
+
+[node name="Sprite2D" parent="CharacterBody2D" index="1" unique_id=2081094798]
+texture = ExtResource("3_wwl3a")
+
+[node name="CollisionShape2D" parent="CharacterBody2D" index="2" unique_id=1410271387]
+shape = SubResource("CapsuleShape2D_dn3a7")

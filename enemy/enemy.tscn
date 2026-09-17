@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ja5d1585nwd4"]
+
+[ext_resource type="Script" uid="uid://b2duanrusloaj" path="res://enemy/normal_enemies/Enemy.gd" id="1_2mvqj"]
+
+[node name="Enemy" type="Node2D" unique_id=446625782]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1258280218]
+script = ExtResource("1_2mvqj")
+
+[node name="Hitbox" type="Area2D" parent="CharacterBody2D" unique_id=240776709]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox" unique_id=832802590]
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=2081094798]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1410271387]

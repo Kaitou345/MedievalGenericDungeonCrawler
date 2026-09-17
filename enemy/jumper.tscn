@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://d4k8h2f1ob4ak"]
+
+[ext_resource type="Script" uid="uid://cy4uodrjric25" path="res://enemy/normal_enemies/Jumper.gd" id="2_aa577"]
+[ext_resource type="Texture2D" uid="uid://bd3jbgsg426ng" path="res://assets/platformer-env/Vector/character_round_purple.svg" id="2_jb87m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aa577"]
+radius = 28.301943
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l6fp8"]
+radius = 30.364452
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=440442653]
+script = ExtResource("2_aa577")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1285401089]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=719993116]
+shape = SubResource("CircleShape2D_aa577")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1700585370]
+texture = ExtResource("2_jb87m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=164447864]
+shape = SubResource("CircleShape2D_l6fp8")

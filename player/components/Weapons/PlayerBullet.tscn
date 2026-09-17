@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://blq5642ad4nki"]
+
+[ext_resource type="Script" uid="uid://ioy5bu2p7i4p" path="res://player/components/Weapons/Projectile.gd" id="1_d1a47"]
+[ext_resource type="Texture2D" uid="uid://wqtgcphi4ali" path="res://player/anims/assault_bullets/img_0.png" id="2_3ut3a"]
+[ext_resource type="Texture2D" uid="uid://bxrd5i7htbx4k" path="res://player/anims/assault_bullets/img_1.png" id="3_ngalb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbp3k"]
+radius = 5.398332
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e45li"]
+atlas = ExtResource("2_3ut3a")
+region = Rect2(0, 0, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhi15"]
+atlas = ExtResource("3_ngalb")
+region = Rect2(0, 0, 400, 400)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aq0sf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e45li")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhi15")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="PlayerBullet" type="Area2D" unique_id=830492226]
+collision_layer = 4
+collision_mask = 50
+script = ExtResource("1_d1a47")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1286461605]
+position = Vector2(1.9999999, 0)
+scale = Vector2(2.6000009, 2.6000009)
+shape = SubResource("CircleShape2D_tbp3k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1138110525]
+position = Vector2(-8, -4)
+scale = Vector2(0.11999774, 0.11999774)
+sprite_frames = SubResource("SpriteFrames_aq0sf")

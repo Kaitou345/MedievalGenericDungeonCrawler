@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://csup22srsehvo"]
+
+[ext_resource type="Texture2D" uid="uid://coo5ok0ylvsyy" path="res://assets/platformer/PNG/Default/character_roundYellow.png" id="2_smy5m"]
+[ext_resource type="Script" uid="uid://8mpkqbg6dpt3" path="res://enemy/normal_enemies/Blinker.gd" id="2_y8ix4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y8ix4"]
+radius = 20.0
+height = 48.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tyfne"]
+radius = 18.0
+height = 50.0
+
+[node name="Blinker" type="CharacterBody2D" unique_id=208455777]
+script = ExtResource("2_y8ix4")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1447138907]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=451863696]
+shape = SubResource("CapsuleShape2D_y8ix4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1226494558]
+texture = ExtResource("2_smy5m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1841686975]
+shape = SubResource("CapsuleShape2D_tyfne")

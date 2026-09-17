@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cer65u5ubdlie"]
+
+[ext_resource type="Script" uid="uid://dopv7lapkk1qw" path="res://enemy/normal_enemies/Splitter.gd" id="2_cbyyc"]
+[ext_resource type="Texture2D" uid="uid://f2c5kloglxab" path="res://assets/platformer-env/Vector/character_round_yellow.svg" id="2_qcxs0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cbyyc"]
+radius = 26.400757
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qm2il"]
+radius = 29.017237
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=482540261]
+script = ExtResource("2_cbyyc")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=607261581]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=5899630]
+shape = SubResource("CircleShape2D_cbyyc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1698323018]
+texture = ExtResource("2_qcxs0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1315050389]
+shape = SubResource("CircleShape2D_qm2il")

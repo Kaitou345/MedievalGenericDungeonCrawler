@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://buid2oits3hg2"]
+
+[ext_resource type="Texture2D" uid="uid://d258m6is04wf2" path="res://assets/bg/background.jpg" id="1_spw83"]
+[ext_resource type="PackedScene" uid="uid://c024o22njj1fc" path="res://player/player.tscn" id="1_tbp3k"]
+[ext_resource type="Texture2D" uid="uid://busevx74rbh4f" path="res://assets/ui/white_rect.png" id="2_o43bj"]
+[ext_resource type="Script" uid="uid://bdramu7mledxg" path="res://levels/stamina_bar.gd" id="2_rtq8t"]
+[ext_resource type="PackedScene" uid="uid://go62w6ealf2k" path="res://enemy/bosses/boss.tscn" id="5_epv20"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ptrad"]
+size = Vector2(824, 69)
+
+[node name="Level101" type="Node2D" unique_id=1321611193]
+metadata/_edit_horizontal_guides_ = [65.0]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1004206670]
+position = Vector2(580.00006, 294)
+scale = Vector2(0.41927072, 0.41927078)
+texture = ExtResource("1_spw83")
+
+[node name="FireBoss" parent="." unique_id=249157401 instance=ExtResource("5_epv20")]
+position = Vector2(697, 221)
+scale = Vector2(2.8799994, 2.8799994)
+attack_range = 200.0
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=955394467]
+position = Vector2(-519, 527)
+scale = Vector2(4.16, 1)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1735974894]
+position = Vector2(407, 34)
+shape = SubResource("RectangleShape2D_ptrad")
+debug_color = Color(0.42606878, 0.46537906, 0.98573416, 0.41960785)
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1736075]
+offset_right = 824.0
+offset_bottom = 67.0
+color = Color(0.28235295, 0, 0.043137256, 0)
+
+[node name="PlayerChar" parent="." unique_id=1698768697 instance=ExtResource("1_tbp3k")]
+position = Vector2(186.00002, 436)
+scale = Vector2(0.43999723, 0.43999723)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=288900269]
+
+[node name="StaminaBar" type="TextureProgressBar" parent="CanvasLayer" unique_id=278401348]
+offset_left = 57.000004
+offset_top = 38.0
+offset_right = 819.0
+offset_bottom = 320.0
+scale = Vector2(0.14581263, 0.08119207)
+texture_under = ExtResource("2_o43bj")
+texture_over = ExtResource("2_o43bj")
+texture_progress = ExtResource("2_o43bj")
+tint_under = Color(0.7987912, 0.7987912, 0.79879117, 1)
+tint_over = Color(1, 1, 1, 0)
+tint_progress = Color(0, 0.48562223, 0.2055847, 1)
+script = ExtResource("2_rtq8t")
+
+[node name="FireBoss2" parent="." unique_id=679206702 instance=ExtResource("5_epv20")]
+position = Vector2(129, 300)
+
+[node name="FireBoss3" parent="." unique_id=1647631654 instance=ExtResource("5_epv20")]
+position = Vector2(916, 300)
