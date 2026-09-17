@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cx080jrvh3cvp" path="res://enemy/sfx/dash.mp3" id="3_x7c3f"]
 [ext_resource type="Script" uid="uid://b357r4wvxfcf7" path="res://player/components/movement/movement_y.gd" id="4_g6k8r"]
 [ext_resource type="Script" uid="uid://dovq1g5ouxtf8" path="res://player/components/movement/dash.gd" id="5_boad6"]
+[ext_resource type="AudioStream" uid="uid://bjqypy88r0jy8" path="res://enemy/sfx/shotgun.mp3" id="5_s7qer"]
 [ext_resource type="Script" uid="uid://buytpuucaqcwb" path="res://player/components/ground_slam.gd" id="6_g6k8r"]
 [ext_resource type="Script" uid="uid://bgf6ybmvq10qg" path="res://player/components/Weapons/WeaponManager.gd" id="7_hg6s5"]
 [ext_resource type="Script" uid="uid://nxjvqtj1tnsj" path="res://player/components/Weapons/Shotgun.gd" id="8_2ieo8"]
@@ -257,6 +258,7 @@ script = ExtResource("1_rkbax")
 run_sfx = ExtResource("2_65viv")
 jump_sfx = ExtResource("3_bjvpn")
 dash_sfx = ExtResource("3_x7c3f")
+shotgun_sfx = ExtResource("5_s7qer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=521625114]
 position = Vector2(0.49999928, 2.4999986)
@@ -330,6 +332,6 @@ shape = SubResource("CircleShape2D_ptrad")
 scale = Vector2(2.760002, 2.760002)
 sprite_frames = SubResource("SpriteFrames_yllr7")
 animation = &"run"
-frame_progress = 0.34385976
+frame_progress = 0.79623383
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1691675618]

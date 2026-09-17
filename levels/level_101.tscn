@@ -17,8 +17,8 @@ size = Vector2(824, 69)
 metadata/_edit_horizontal_guides_ = [65.0]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1004206670]
-position = Vector2(584.00006, 327)
-scale = Vector2(0.41927072, 0.41927078)
+position = Vector2(597, 210)
+scale = Vector2(0.57927316, 0.5792732)
 texture = ExtResource("1_spw83")
 
 [node name="FireBoss" parent="." unique_id=249157401 instance=ExtResource("5_epv20")]
@@ -117,6 +117,22 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "DOUBLE JUMP LOST
 "
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer" unique_id=981468238]
+offset_left = 840.0
+offset_top = 48.0
+offset_right = 1049.0
+offset_bottom = 201.0
+
+[node name="Tut" type="Label" parent="CanvasLayer/VBoxContainer2" unique_id=5998272]
+layout_mode = 2
+text = "A - Left
+D - Right
+E- Parry
+Space - Jump/ Double Jump
+Shift - Dash
+Left Click - Attack"
 horizontal_alignment = 1
 
 [node name="Flyer" parent="." unique_id=1768979609 instance=ExtResource("9_gu2di")]

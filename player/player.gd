@@ -24,6 +24,7 @@ signal ability_restored(ability_name: String)
 @export var slam_sfx: AudioStream
 @export var hurt_sfx: AudioStream
 @export var die_sfx: AudioStream
+@export var shotgun_sfx: AudioStream
 @export var step_interval: float = 0.35 # Frequency of footstep sounds in seconds
 
 var current_health: float
@@ -87,9 +88,9 @@ func _physics_process(delta: float) -> void:
 		if movement_y:
 			movement_y.apply(self, delta, facing_dir)
 			
-			# Play jump sound on press if jumping is enabled and velocity moved upwards
+			# Play jump sound on press ONLY if grounded OR if double jump is enabled
 			if Input.is_action_just_pressed("jump") and velocity.y < 0.0:
-				if is_on_floor() or double_jump_enabled:
+				if previously_on_floor or double_jump_enabled:
 					_play_sfx(jump_sfx)
 
 	move_and_slide()
@@ -171,6 +172,9 @@ func _play_sfx(stream: AudioStream) -> void:
 func _stop_run_sfx() -> void:
 	if sfx_player and sfx_player.playing and sfx_player.stream == run_sfx:
 		sfx_player.stop()
+
+func play_shotgun_sfx() -> void:
+	_play_sfx(shotgun_sfx)
 
 func _sync_ability_states() -> void:
 	if dash:
