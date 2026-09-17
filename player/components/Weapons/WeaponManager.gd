@@ -16,8 +16,14 @@ var active_weapon_type: WeaponType = WeaponType.ASSAULT_RIFLE
 
 var _fire_cooldown_timer: float = 0.0
 
+@onready var player: Node2D = get_parent() as Node2D
+
 
 func _process(delta: float) -> void:
+	# Stop all weapon logic and firing inputs immediately if the player is dead
+	if player and "is_dead" in player and player.is_dead:
+		return
+
 	if _fire_cooldown_timer > 0.0:
 		_fire_cooldown_timer -= delta
 
@@ -61,16 +67,15 @@ func _shoot() -> void:
 		print("ERROR: Active weapon is missing a assigned projectile scene!")
 		return
 
-	var parent_player := get_parent() as Node2D
-	if not parent_player:
+	if not player:
 		return
 
 	# Determine horizontal facing direction directly from player
 	var facing_dir_x: float = 1.0
-	if "movement_x" in parent_player and parent_player.movement_x:
-		facing_dir_x = parent_player.movement_x.facing
+	if "movement_x" in player and player.movement_x:
+		facing_dir_x = player.movement_x.facing
 
-	var spawn_pos: Vector2 = parent_player.global_position
+	var spawn_pos: Vector2 = player.global_position
 	var aim_dir := Vector2(facing_dir_x, 0.0)
 
 	# Pull weapon parameters or fallback to defaults

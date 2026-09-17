@@ -17,6 +17,12 @@ enum State { IDLE, CHASE, ATTACK, RECOVER }
 ## How far forward the hitbox shifts when facing a direction (in pixels)
 @export var hitbox_offset_x: float = 45.0 
 
+@export_group("Audio")
+@export var attack_sfx: AudioStream
+## Delay (in seconds) after the attack animation begins before playing the sound effect
+@export var attack_sfx_delay: float = 0.3
+@onready var sfx_player: AudioStreamPlayer2D = $AudioStreamPlayer2D if has_node("AudioStreamPlayer2D") else null
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D if has_node("AnimatedSprite2D") else null
 @onready var attack_hitbox: Area2D = $Hitbox if has_node("Hitbox") else null
 @onready var attack_shape: CollisionShape2D = $Hitbox/CollisionShape2D if has_node("Hitbox/CollisionShape2D") else null
@@ -26,6 +32,7 @@ var current_state: State = State.IDLE
 var target_player: CharacterBody2D = null
 var facing_dir: float = -1.0
 var _can_attack: bool = true
+var _sfx_timer: SceneTreeTimer = null
 
 
 func _ready() -> void:
@@ -111,10 +118,16 @@ func _execute_attack() -> void:
 	_can_attack = false
 	velocity.x = 0.0
 	
+	# 1. Animation starts immediately
 	_play_anim("attack")
 	
-	# Wind-up delay before swing impact
+	# 2. Schedule sound to play after delay without delaying the animation flow
+	_schedule_attack_sfx()
+
+	# Wind-up delay before swing impact (starts immediately alongside animation)
 	await get_tree().create_timer(1.2).timeout
+	if current_state != State.ATTACK:
+		return
 	
 	# Enable hitbox monitoring for the active strike window
 	if attack_hitbox:
@@ -122,25 +135,64 @@ func _execute_attack() -> void:
 
 	# Active swing duration window
 	await get_tree().create_timer(0.15).timeout
-
-	# Disable monitoring after strike frame ends
 	if attack_hitbox:
 		attack_hitbox.monitoring = false
 
-	current_state = State.RECOVER
+	if current_state == State.ATTACK:
+		current_state = State.RECOVER
 	
 	# Recovery wind-down
 	await get_tree().create_timer(0.4).timeout
-	current_state = State.CHASE
+	if current_state == State.RECOVER:
+		current_state = State.CHASE
 	
 	# Attack cooldown
 	await get_tree().create_timer(attack_cooldown).timeout
 	_can_attack = true
 
 
+func _schedule_attack_sfx() -> void:
+	if attack_sfx_delay > 0.0:
+		_sfx_timer = get_tree().create_timer(attack_sfx_delay)
+		_sfx_timer.timeout.connect(_play_attack_sfx, CONNECT_ONE_SHOT)
+	else:
+		_play_attack_sfx()
+
+
+func _play_attack_sfx() -> void:
+	# Do not play audio if boss was staggered during wind-up
+	if current_state != State.ATTACK:
+		return
+
+	if sfx_player:
+		if attack_sfx:
+			sfx_player.stream = attack_sfx
+		if sfx_player.stream:
+			sfx_player.play()
+
+
+func _stop_attack_sfx() -> void:
+	# Disconnect pending delayed timer if audio hasn't played yet
+	if _sfx_timer and _sfx_timer.timeout.is_connected(_play_attack_sfx):
+		_sfx_timer.timeout.disconnect(_play_attack_sfx)
+	_sfx_timer = null
+
+	# Cut active audio immediately
+	if sfx_player and sfx_player.playing:
+		sfx_player.stop()
+
+
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if current_health > 0 and body.is_in_group("player") and body.has_method("take_damage_from_enemy"):
-		body.take_damage_from_enemy(attack_damage, global_position)
+	if current_health > 0 and body is Player:
+		# Check if the player is actively parrying right when the attack hits
+		if body.has_node("Parry") and body.get_node("Parry").monitoring:
+			print("Boss attack successfully parried by player!")
+			stagger_from_parry()
+			return
+			
+		# Normal damage if the player is not parrying
+		if body.has_method("take_damage_from_enemy"):
+			body.take_damage_from_enemy(attack_damage, global_position)
 
 
 func take_damage(amount: float, _source_pos: Vector2 = Vector2.ZERO) -> void:
@@ -172,16 +224,24 @@ func _find_player() -> void:
 	var players := get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		target_player = players[0] as CharacterBody2D
+
+
 func stagger_from_parry() -> void:
+	print("Boss Staggered by Parry!")
 	if current_health <= 0:
 		return
+
+	# Immediately stop playing sound and cancel pending audio timers
+	_stop_attack_sfx()
 
 	# Force the boss into a recovery/stun state and stop movement
 	current_state = State.RECOVER
 	velocity.x = 0.0
 	_can_attack = false
 	
-	# Optional: Give visual feedback like flashing white or red
+	if attack_hitbox:
+		attack_hitbox.monitoring = false
+
 	_flash_hit()
 
 	# Play the staggered animation if it exists in your SpriteFrames
@@ -200,7 +260,9 @@ func stagger_from_parry() -> void:
 	await get_tree().create_timer(attack_cooldown).timeout
 	_can_attack = true
 
+
 func _die() -> void:
+	_stop_attack_sfx()
 	emit_signal("boss_defeated")
 	set_physics_process(false)
 	

@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cp8158nnqv4ba" path="res://levels/bossHealthBar.gd" id="6_ksxuh"]
 [ext_resource type="Script" uid="uid://deo6tm3wofui1" path="res://levels/HealthBar.gd" id="6_wc3nl"]
 [ext_resource type="Script" uid="uid://d0olhocjyiwy2" path="res://levels/v_box_container.gd" id="8_8g1n7"]
+[ext_resource type="PackedScene" uid="uid://b2qno16d87tfj" path="res://enemy/flyer.tscn" id="9_gu2di"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ptrad"]
 size = Vector2(824, 69)
@@ -16,15 +17,13 @@ size = Vector2(824, 69)
 metadata/_edit_horizontal_guides_ = [65.0]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1004206670]
-position = Vector2(580.00006, 294)
+position = Vector2(584.00006, 327)
 scale = Vector2(0.41927072, 0.41927078)
 texture = ExtResource("1_spw83")
 
 [node name="FireBoss" parent="." unique_id=249157401 instance=ExtResource("5_epv20")]
 position = Vector2(697, 221)
-scale = Vector2(2.8799994, 2.8799994)
-max_health = 100.0
-attack_range = 200.0
+scale = Vector2(2.0023208, 2.0023208)
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=955394467]
 position = Vector2(-519, 527)
@@ -119,3 +118,8 @@ layout_mode = 2
 text = "DOUBLE JUMP LOST
 "
 horizontal_alignment = 1
+
+[node name="Flyer" parent="." unique_id=1768979609 instance=ExtResource("9_gu2di")]
+position = Vector2(773, 382)
+scale = Vector2(1.64, 1.64)
+min_height_above_ground = 1000.0

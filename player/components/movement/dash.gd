@@ -95,6 +95,12 @@ func _end_dash() -> void:
 		shadow_particles.emitting = false
 		
 	if player:
+		# Reset sprite self_modulate back to normal white/default
+		if player.has_node("AnimatedSprite2D"):
+			var sprite: AnimatedSprite2D = player.get_node("AnimatedSprite2D")
+			var reset_tween := create_tween()
+			reset_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.1)
+
 		# Restore enemy collision detection upon dash exit
 		player.set_collision_mask_value(enemy_collision_layer, true)
 		
@@ -112,7 +118,9 @@ func _start_dash_effects() -> void:
 	if player and player.has_node("AnimatedSprite2D"):
 		var sprite: AnimatedSprite2D = player.get_node("AnimatedSprite2D")
 		var tween := create_tween()
-		tween.tween_property(sprite, "modulate", Color(0.3, 0.1, 0.4, 1.0), 0.05)
+		tween.parallel().tween_property(sprite, "modulate", Color(0.5, 0.2, 0.8, 1.0), 0.05)
+		tween.parallel().tween_property(sprite, "self_modulate", Color(2.5, 1.5, 3.0, 1.0), 0.05) # Adds a glowing neon tint
+		
 		tween.tween_property(sprite, "modulate", Color.WHITE, dash_time)
 
 	if camera and camera.has_method("apply_shake"):

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cdp7t2t8nis63"]
+
+[ext_resource type="Texture2D" uid="uid://b1r1cfemq45bk" path="res://assets/particles/PNG (Transparent)/star_05.png" id="1_ko0x7"]
+[ext_resource type="Script" uid="uid://dp6b00wudqyix" path="res://player/parry_effect.gd" id="1_utuhh"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=356842343]
+scale = Vector2(0.35999954, 0.35999954)
+emitting = false
+amount = 15
+texture = ExtResource("1_ko0x7")
+lifetime = 0.27
+one_shot = true
+script = ExtResource("1_utuhh")

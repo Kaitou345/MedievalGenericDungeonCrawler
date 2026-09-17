@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bdwph52641cxv" path="res://enemy/bosses/boss1.gd" id="1_k3sgx"]
 [ext_resource type="Texture2D" uid="uid://endl0yepance" path="res://enemy/anim/boss1/boss1.png" id="2_maw0j"]
+[ext_resource type="AudioStream" uid="uid://cxajkupvabc83" path="res://enemy/sfx/boss_attack.mp3" id="2_pmtgm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmtgm"]
 atlas = ExtResource("2_maw0j")
@@ -423,10 +424,14 @@ height = 21.40638
 [sub_resource type="CircleShape2D" id="CircleShape2D_k3sgx"]
 radius = 9.438998
 
+[sub_resource type="AudioStream" id="AudioStream_f6sy1"]
+
 [node name="FireBoss" type="CharacterBody2D" unique_id=249157401]
 collision_layer = 2
 collision_mask = 53
 script = ExtResource("1_k3sgx")
+attack_sfx = ExtResource("2_pmtgm")
+attack_sfx_delay = 0.8
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=764813377]
 position = Vector2(-6.9999995, -21)
@@ -440,12 +445,15 @@ rotation = -3.1415925
 scale = Vector2(2.6606493, 2.6606493)
 shape = SubResource("CapsuleShape2D_k3sgx")
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=2129986773]
-position = Vector2(-53.000004, -7.9999995)
-scale = Vector2(-2.2354937, 2.0899322)
+[node name="Hitbox" type="Area2D" parent="." unique_id=2129986773 groups=["boss"]]
+position = Vector2(-39, -10)
+scale = Vector2(-3.1660385, 2.2060142)
 collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1709505583]
 position = Vector2(3.772945, 11.483626)
 scale = Vector2(1.543302, -1.8269194)
 shape = SubResource("CircleShape2D_k3sgx")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=382094802]
+stream = SubResource("AudioStream_f6sy1")

@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://c024o22njj1fc"]
 
 [ext_resource type="Script" uid="uid://1kvimsrgx7qf" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="AudioStream" uid="uid://bxjltgljcyxyu" path="res://enemy/sfx/run.mp3" id="2_65viv"]
+[ext_resource type="AudioStream" uid="uid://bl4hd7ngvdpvt" path="res://enemy/sfx/jump.mp3" id="3_bjvpn"]
 [ext_resource type="Script" uid="uid://wacicescj47x" path="res://player/components/movement/movement_x.gd" id="3_qjkh3"]
+[ext_resource type="AudioStream" uid="uid://cx080jrvh3cvp" path="res://enemy/sfx/dash.mp3" id="3_x7c3f"]
 [ext_resource type="Script" uid="uid://b357r4wvxfcf7" path="res://player/components/movement/movement_y.gd" id="4_g6k8r"]
 [ext_resource type="Script" uid="uid://dovq1g5ouxtf8" path="res://player/components/movement/dash.gd" id="5_boad6"]
 [ext_resource type="Script" uid="uid://buytpuucaqcwb" path="res://player/components/ground_slam.gd" id="6_g6k8r"]
@@ -13,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://blq5642ad4nki" path="res://player/components/Weapons/PlayerBullet.tscn" id="9_yllr7"]
 [ext_resource type="Script" uid="uid://7fo1gd876axi" path="res://player/components/Weapons/Railgun.gd" id="10_yllr7"]
 [ext_resource type="Texture2D" uid="uid://qhp8bqetoq13" path="res://player/anims/parry1.png" id="13_32hag"]
+[ext_resource type="AudioStream" uid="uid://1u3etgy7bx54" path="res://enemy/sfx/parry.mp3" id="13_c35mf"]
 [ext_resource type="Texture2D" uid="uid://cuo4dg8u3m8n2" path="res://player/anims/death.png" id="13_e7oew"]
 [ext_resource type="Texture2D" uid="uid://dy17qfe7bbcoo" path="res://player/anims/take_hit.png" id="13_tqiix"]
 [ext_resource type="Texture2D" uid="uid://dhqnuwr3rx60" path="res://player/anims/idle.png" id="13_yllr7"]
@@ -244,12 +248,15 @@ animations = [{
 }],
 "loop": 1,
 "name": &"run",
-"speed": 5.0
+"speed": 12.0
 }]
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1400952599 groups=["player"]]
 collision_mask = 58
 script = ExtResource("1_rkbax")
+run_sfx = ExtResource("2_65viv")
+jump_sfx = ExtResource("3_bjvpn")
+dash_sfx = ExtResource("3_x7c3f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=521625114]
 position = Vector2(0.49999928, 2.4999986)
@@ -262,6 +269,7 @@ move_speed = 150.0
 
 [node name="Dash" type="Node" parent="." unique_id=1659517344]
 script = ExtResource("5_boad6")
+dash_distance = 170.0
 dash_time = 0.3
 dash_stamina_cost = 30.0
 
@@ -271,21 +279,26 @@ slam_speed = 600.0
 
 [node name="MovementY" type="Node" parent="." unique_id=1155133387]
 script = ExtResource("4_g6k8r")
+jump_distance = 100.0
 jump_time = 0.6
 fall_time = 0.5
 
 [node name="WeaponManager" type="Node" parent="." unique_id=720616412 node_paths=PackedStringArray("weapon_1_node", "weapon_2_node")]
 script = ExtResource("7_hg6s5")
+max_ammo = 10000000
+current_ammo = 10000000
 weapon_1_node = NodePath("AssaultRifle")
 weapon_2_node = NodePath("Shotgun")
 
 [node name="AssaultRifle" type="Node" parent="WeaponManager" unique_id=1454286932]
 script = ExtResource("8_ebec5")
+max_ammo = 100000000
 fire_cooldown = 0.2
 projectile_scene = ExtResource("9_yllr7")
 
 [node name="Shotgun" type="Node" parent="WeaponManager" unique_id=100038238]
 script = ExtResource("8_2ieo8")
+pellet_count = 100000
 fire_cooldown = 0.4
 projectile_scene = ExtResource("9_yllr7")
 metadata/_custom_type_script = "uid://nxjvqtj1tnsj"
@@ -301,14 +314,22 @@ script = ExtResource("9_2ieo8")
 
 [node name="Parry" type="Area2D" parent="." unique_id=1908628662]
 scale = Vector2(1.3201193, 1.3201193)
+collision_layer = 0
+collision_mask = 10
 script = ExtResource("8_8t03j")
 parry_window = 0.4
+parry_sfx = ExtResource("13_c35mf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Parry" unique_id=1842396331]
 scale = Vector2(10.199999, 10.199999)
 shape = SubResource("CircleShape2D_ptrad")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Parry" unique_id=1763996112]
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1464564015]
 scale = Vector2(2.760002, 2.760002)
 sprite_frames = SubResource("SpriteFrames_yllr7")
-animation = &"death"
+animation = &"run"
+frame_progress = 0.34385976
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1691675618]
